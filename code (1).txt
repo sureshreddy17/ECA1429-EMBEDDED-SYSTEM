@@ -1,0 +1,39 @@
+#include &lt;Arduino.h&gt;
+void HighTask(void *pvParameters)
+{
+  while (1)
+  {
+    Serial.println(&quot;HighTask is running&quot;);
+    vTaskDelay(pdMS_TO_TICKS(500));
+  }
+}
+void MediumTask(void *pvParameters)
+{
+  while (1)
+  {
+    Serial.println(&quot;MediumTask is running&quot;);
+    vTaskDelay(pdMS_TO_TICKS(1000));
+  }
+}
+
+void LowTask(void *pvParameters)
+{
+  while (1)
+  {
+    Serial.println(&quot;LowTask is running&quot;);
+    vTaskDelay(pdMS_TO_TICKS(1500));
+  }
+}
+void setup()
+{
+  Serial.begin(115200);
+  xTaskCreate(HighTask, &quot;HighTask&quot;, 2048, NULL, 3, NULL);
+  xTaskCreate(MediumTask, &quot;MediumTask&quot;, 2048, NULL, 2,
+NULL);
+  xTaskCreate(LowTask, &quot;LowTask&quot;, 2048, NULL, 1, NULL);
+  Serial.println(&quot;All tasks created&quot;);
+}
+void loop()
+{
+  delay(1000);
+}
